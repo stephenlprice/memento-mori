@@ -23,6 +23,17 @@ $(document).ready(function() {
             $(this).append($(input));
             // Focuses on the input element to enter an activity
             $("input").focus();
+
+            $("input").on("submit", function(event) {
+                event.preventDefault();
+                // create activity object from input
+                var activity = {
+                    time: $("tbody td.w-75").attr("data-hour"),
+                    event: $(this).value
+                };
+                console.log(activity);
+                // localStorage.setItem("activity")
+            });
         }
         // Turns this button off once it has been clicked once
         $(this).off(event);
@@ -41,24 +52,30 @@ function writeDay() {
         if (hour < dayjs().hour()) {
             $("tbody").append($(/*html*/`
                 <tr class="past">
-                    <th class="w-25" scope="row">${hourPretty}</th>
+                    <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
                     <td class="w-75"><span></span></td>
+                    <td class="w-auto"><button class="save"><i class="fas fa-save"></i></button></td>
+                    <td class="w-auto"><button class="delete"><i class="fas fa-trash-alt"></i></button></td>
                 </tr>
             `));
         }
         else if (hour === dayjs().hour()) {
             $("tbody").append($(/*html*/`
                 <tr class="present">
-                    <th class="w-25" scope="row">${hourPretty}</th>
+                    <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
                     <td class="w-75"><span></span></td>
+                    <td class="w-auto"><button class="save"><i class="fas fa-save"></i></button></td>
+                    <td class="w-auto"><button class="delete"><i class="fas fa-trash-alt"></i></button></td>
                 </tr>
             `));
         }
         else {
             $("tbody").append($(/*html*/`
                 <tr class="future">
-                    <th class="w-25" scope="row">${hourPretty}</th>
+                    <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
                     <td class="w-75"><span></span></td>
+                    <td class="w-auto"><button class="save"><i class="fas fa-save"></i></button></td>
+                    <td class="w-auto"><button class="delete"><i class="fas fa-trash-alt"></i></button></td>
                 </tr>
             `));
         }   
