@@ -35,18 +35,26 @@ $(document).ready(function() {
     $("tbody tr").on("click", function(event) {
         event.preventDefault();
         var target = $(event.target);
-        console.log(event.target);
+        // Allows clicks on save buttons or their icon
         if (target.is("button.save") || target.is("i.fas.fa-save")) {
             // create activity object from input and data-hour attribute
-            var activity = {
-                time: $(this).find("th.w-auto").attr("data-hour"),
-                date: dayjs().format('dddd, MMMM D, YYYY'),
-                event: $(this).find("td.w-75 input.w-100").val()
-            };
-            console.log(activity);
-            localStorage.setItem("activity", JSON.stringify(activity));
-        }
-        
+            if($(this).find("td.w-75 input.w-100").val() != "") {
+                var activity = {
+                    time: $(this).find("th.w-auto").attr("data-hour"),
+                    date: dayjs().format('dddd, MMMM D, YYYY'),
+                    event: $(this).find("td.w-75 input.w-100").val()
+                };
+                console.log(activity);
+                // Does not save activity objects lacking events into local storage
+                if (activity.length < 3 || !activity.hasOwnProperty("event") || activity.event === undefined) {
+                    console.log("cannot save an empty event");
+                }
+                else {
+                    events.push(activity);
+                    localStorage.setItem("events", JSON.stringify(events));
+                }
+            }
+        } 
     });
 
 });
