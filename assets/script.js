@@ -79,7 +79,7 @@ $(document).ready(function() {
 // Writes hours from 9am to 5pm on the calendar page
 function writeDay() {
     // Iterate through business hours
-    for (var i = 9; i <= 23; i++) {
+    for (var i = 9; i <= 17; i++) {
         // generates an hour value to be used to determine past, present, future
         var hour = dayjs().set('hour', i).hour();
         // formatted hour to be rendered unto the page
