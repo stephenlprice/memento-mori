@@ -15,28 +15,30 @@ $(document).ready(function() {
 
     // Listens for a click to add a text input to enter a new activity for the selected hour
     $("tbody td.w-75").on("click", function(event) {
+        event.preventDefault();
         // Flag to not allow more than one event per hour
         var click = false;
         // Text input set to cover the entire width
-        var input = $('<input type="text" class="w-100">');
+        var input = $('<input type="text" id="event" class="w-100">');
         if (!click) {
             $(this).append($(input));
             // Focuses on the input element to enter an activity
             $("input").focus();
-
-            $("input").on("submit", function(event) {
-                event.preventDefault();
-                // create activity object from input
-                var activity = {
-                    time: $("tbody td.w-75").attr("data-hour"),
-                    event: $(this).value
-                };
-                console.log(activity);
-                // localStorage.setItem("activity")
-            });
         }
         // Turns this button off once it has been clicked once
         $(this).off(event);
+    });
+
+    $("tbody .save").on("click", function(event) {
+        event.preventDefault();
+        // create activity object from input and data-hour attribute
+        var activity = {
+            time: $("tbody th.w-auto").attr("data-hour"),
+            date: dayjs().format('dddd, MMMM D, YYYY'),
+            event: $("tbody td.w-75 input.w-100").val()
+        };
+        console.log(activity);
+        // localStorage.setItem("activity")
     });
 
 });
@@ -54,8 +56,14 @@ function writeDay() {
                 <tr class="past">
                     <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
                     <td class="w-75"><span></span></td>
-                    <td class="w-auto"><button class="save"><i class="fas fa-save"></i></button></td>
-                    <td class="w-auto"><button class="delete"><i class="fas fa-trash-alt"></i></button></td>
+                    <td class="w-auto">
+                        <button class="save">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button class="delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
             `));
         }
@@ -64,8 +72,14 @@ function writeDay() {
                 <tr class="present">
                     <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
                     <td class="w-75"><span></span></td>
-                    <td class="w-auto"><button class="save"><i class="fas fa-save"></i></button></td>
-                    <td class="w-auto"><button class="delete"><i class="fas fa-trash-alt"></i></button></td>
+                    <td class="w-auto">
+                        <button class="save">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button class="delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
             `));
         }
@@ -74,8 +88,14 @@ function writeDay() {
                 <tr class="future">
                     <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
                     <td class="w-75"><span></span></td>
-                    <td class="w-auto"><button class="save"><i class="fas fa-save"></i></button></td>
-                    <td class="w-auto"><button class="delete"><i class="fas fa-trash-alt"></i></button></td>
+                    <td class="w-auto">
+                        <button class="save">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button class="delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
             `));
         }   
