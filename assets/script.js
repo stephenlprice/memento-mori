@@ -66,11 +66,25 @@ $(document).ready(function() {
     // Delete button
     $("tbody tr").on("click", function(event) {
         event.preventDefault();
+        // Used for event delegation
         var $target = $(event.target);
-        console.log($target);
         // Allows clicks on delete buttons or their icon
         if ($target.is("button.delete") || $target.is("i.fas.fa-trash-alt")) {
+            // Remove the text input
             $(this).children("td.w-75").empty();
+            // Used to loop through array and splice the right item
+            var storedEvents = JSON.parse(localStorage.getItem("events"));
+            var thisIndex = $(this).children("td.w-75").attr("id");
+            for (i = 0; i < storedEvents.length; i++) {
+                // If the timeIndex of an object is the same as the ID on a schedule row
+                if (storedEvents[i].timeIndex === thisIndex ) {
+                    // Remove the matching item from the array
+                    events.splice(i, 1);
+                    // Push the new array to local storage
+                    localStorage.setItem("events", JSON.stringify(events));
+                }
+            }
+            
         }
     });
 
@@ -79,7 +93,7 @@ $(document).ready(function() {
 // Writes hours from 9am to 5pm on the calendar page
 function writeDay() {
     // Iterate through business hours
-    for (var i = 9; i <= 23; i++) {
+    for (var i = 9; i <= 17; i++) {
         // generates an hour value to be used to determine past, present, future
         var hour = dayjs().set('hour', i).hour();
         // formatted hour to be rendered unto the page
@@ -93,6 +107,7 @@ function writeDay() {
             cronos = "future";
         }
 
+        // Template literal for each schedule row
         $("tbody").append($(/*html*/`
             <tr class="${cronos}">
                 <th class="w-auto" scope="row" data-hour="${hourPretty}" data-index="${hour}">${hourPretty}</th>
@@ -108,15 +123,19 @@ function writeDay() {
             </tr>
         `)); 
         
-        // Check local storage for a matching activity
+        // Check local storage for a matching activity and render a text input on the right row
         var eventsStored = JSON.parse(localStorage.getItem("events"));
         if (eventsStored != null) {
             for (j = 0; j < eventsStored.length;  j++) {
                 eventsValue = events[j];
                 iString = String(i);
+                // If the timeIndex of an object matches the row as iterated in the parent function with i
                 if (eventsValue.timeIndex === iString) {
+                    // Construct a selector
                     var selector = "tbody td#" + i;
+                    // Create an input tag
                     var $input = $('<input type="text" class="w-100" data-checked="true">').val(events[j].event);
+                    // Append the input tag to the selector
                     $(selector).append($($input));
                 }
             }
