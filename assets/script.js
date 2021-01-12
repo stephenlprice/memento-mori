@@ -19,12 +19,10 @@ $(document).ready(function() {
     // Listens for a click to add a text input to enter a new activity for the selected hour
     $("tbody td.w-75").on("click", function(event) {
         event.preventDefault();
-        // Flag to not allow more than one event per hour
-        var click = false;
         // Text input set to cover the entire width with a data-checked flag set to true
         var $input = $('<input type="text" class="w-100" data-checked="true">');
         // Checks if the click or data-checked flags are false
-        if (!click || $(this).find("input").attr("data-checked") === false) {
+        if ($(this).children("td.w-75").text('<input type="text" class="w-100" data-checked="true">')) {
             $(this).append($($input));
             // Focuses on the input element to enter an activity
             $("input").focus();
@@ -58,6 +56,7 @@ $(document).ready(function() {
                     events.push($activity);
                     // Save events array on local storage
                     localStorage.setItem("events", JSON.stringify(events));
+                    location.reload();
                 }
             }
         } 
@@ -82,6 +81,7 @@ $(document).ready(function() {
                     events.splice(i, 1);
                     // Push the new array to local storage
                     localStorage.setItem("events", JSON.stringify(events));
+                    location.reload();
                 }
             }
             
