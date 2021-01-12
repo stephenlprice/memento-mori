@@ -4,6 +4,9 @@ dayjs().format()
 // Outputs current time
 dayjs().format('hh:mm A');
 
+// Array of scheduled events, can be empty
+var events = JSON.parse(localStorage.getItem('events')) || [];
+
 function init () {
     // Writes the current day to the top of the page
     $("#currentDay").text(dayjs().format('dddd, MMMM D, YYYY'));
@@ -29,16 +32,21 @@ $(document).ready(function() {
         $(this).off(event);
     });
 
-    $("tbody .save").on("click", function(event) {
+    $("tbody tr").on("click", function(event) {
         event.preventDefault();
-        // create activity object from input and data-hour attribute
-        var activity = {
-            time: $("tbody th.w-auto").attr("data-hour"),
-            date: dayjs().format('dddd, MMMM D, YYYY'),
-            event: $("tbody td.w-75 input.w-100").val()
-        };
-        console.log(activity);
-        // localStorage.setItem("activity")
+        var target = $(event.target);
+        console.log(event.target);
+        if (target.is("button.save") || target.is("i.fas.fa-save")) {
+            // create activity object from input and data-hour attribute
+            var activity = {
+                time: $(this).find("th.w-auto").attr("data-hour"),
+                date: dayjs().format('dddd, MMMM D, YYYY'),
+                event: $(this).find("td.w-75 input.w-100").val()
+            };
+            console.log(activity);
+            localStorage.setItem("activity", JSON.stringify(activity));
+        }
+        
     });
 
 });
