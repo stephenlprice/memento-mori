@@ -13,8 +13,36 @@ textarea {
   padding: 10px;
 }
 
+/* icons */
 i {
   margin: auto;
+}
+/* table headers */
+th {
+  text-align: center;
+}
+/* tables text except for calendar events */
+th .w-auto {
+  text-align: center;
+}
+
+/* Scheduler icon */
+.fas.fa-business-time {
+  color: #336B87;
+}
+
+/* Delete button */
+button.save {
+  color: #763626;
+}
+
+/* reset button */
+button#reset {
+    color: #336B87;
+}
+
+#currentDay {
+  color: #763626;
 }
 
 .jumbotron {
@@ -47,17 +75,17 @@ i {
 }
 
 .past {
-  background-color: #d3d3d3;
+  background-color: #90AFC5;
   color: white;
 }
 
 .present {
-  background-color: #ff6961;
+  background-color: #763626;
   color: white;
 }
 
 .future {
-  background-color: #77dd77;
+  background-color: #336B87;
   color: white;
 }
 

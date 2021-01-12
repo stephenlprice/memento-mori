@@ -56,7 +56,6 @@ $(document).ready(function() {
                     events.push($activity);
                     // Save events array on local storage
                     localStorage.setItem("events", JSON.stringify(events));
-                    location.reload();
                 }
             }
         } 
@@ -81,11 +80,15 @@ $(document).ready(function() {
                     events.splice(i, 1);
                     // Push the new array to local storage
                     localStorage.setItem("events", JSON.stringify(events));
-                    location.reload();
                 }
             }
             
         }
+    });
+
+    // Delete button
+    $("button#reset").on("click", function(event) {
+        location.reload();
     });
 
 });
