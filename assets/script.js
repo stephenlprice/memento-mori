@@ -66,59 +66,33 @@ $(document).ready(function() {
 // Writes hours from 9am to 5pm on the calendar page
 function writeDay() {
     // Iterate through business hours
-    for (var i = 9; i <= 17; i++) {
+    for (var i = 9; i <= 23; i++) {
         // generates an hour value to be used to determine past, present, future
         var hour = dayjs().set('hour', i).hour();
         // formatted hour to be rendered unto the page
         var hourPretty = dayjs().hour(i).minute(0).second(0).format('hh A');
+        var cronos = "present";
+        // checks if the calendar hour is before or after current time
         if (hour < dayjs().hour()) {
-            $("tbody").append($(/*html*/`
-                <tr class="past">
-                    <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
-                    <td class="w-75"><span></span></td>
-                    <td class="w-auto">
-                        <button class="save">
-                            <i class="fas fa-save"></i>
-                        </button>
-                        <button class="delete">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            `));
+            cronos = "past";
         }
-        else if (hour === dayjs().hour()) {
-            $("tbody").append($(/*html*/`
-                <tr class="present">
-                    <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
-                    <td class="w-75"><span></span></td>
-                    <td class="w-auto">
-                        <button class="save">
-                            <i class="fas fa-save"></i>
-                        </button>
-                        <button class="delete">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            `));
+        else if (hour > dayjs().hour()) {
+            cronos = "future";
         }
-        else {
-            $("tbody").append($(/*html*/`
-                <tr class="future">
-                    <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
-                    <td class="w-75"><span></span></td>
-                    <td class="w-auto">
-                        <button class="save">
-                            <i class="fas fa-save"></i>
-                        </button>
-                        <button class="delete">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            `));
-        }   
+        $("tbody").append($(/*html*/`
+            <tr class="${cronos}">
+                <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
+                <td class="w-75"><span></span></td>
+                <td class="w-auto">
+                    <button class="save">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <button class="delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        `));  
     }
 }
 
