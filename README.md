@@ -7,7 +7,7 @@ A workday scheduler built with [jQuery](https://jquery.com/), [Bootstrap](https:
 
 <br>
 
-Click on an hour to reveal a text input where you can describe an event. Click on save to store your scheduled activity for future reference. Click on delete to remove it. The scheduler will highlight hours past, present and future to help you plan your work day. 
+Click on an hour to reveal a text input where you can describe an event. Click on save to store your scheduled activity for future reference. Click on delete to remove it. The scheduler will highlight hours past, present and future to help you plan your work day. Any unsaved events will be cleared to keep your calendar nice and organized.
 
 Schedule meetings and other engagements in hour long chunks so that you can go eat a snack for 15 minutes before the next meeting. This scheduler isn't very granular - but that my friend, is a **feature!**
 
