@@ -21,18 +21,19 @@ $(document).ready(function() {
         event.preventDefault();
         // Flag to not allow more than one event per hour
         var click = false;
-        // Text input set to cover the entire width
-        var $input = $('<input type="text" id="event" class="w-100">');
-        if (!click) {
+        // Text input set to cover the entire width with a data-checked flag set to true
+        var $input = $('<input type="text" id="event" class="w-100" data-checked="true">');
+        // Checks if the click or data-checked flags are false
+        if (!click || $(this).find("input").attr("data-checked") === false) {
             $(this).append($($input));
             // Focuses on the input element to enter an activity
             $("input").focus();
         }
-        if ($input)
         // Turns this button off once it has been clicked once
         $(this).off(event);
     });
 
+    // Save button
     $("tbody tr").on("click", function(event) {
         event.preventDefault();
         var $target = $(event.target);
@@ -43,6 +44,7 @@ $(document).ready(function() {
                 // create activity object from input and data-hour attribute
                 var $activity = {
                     time: $(this).find("th.w-auto").attr("data-hour"),
+                    timeIndex: $(this).find("th.w-auto").attr("data-index"),
                     date: dayjs().format('dddd, MMMM D, YYYY'),
                     event: $(this).find("td.w-75 input.w-100").val()
                 };
@@ -79,10 +81,11 @@ function writeDay() {
         else if (hour > dayjs().hour()) {
             cronos = "future";
         }
+
         $("tbody").append($(/*html*/`
             <tr class="${cronos}">
-                <th class="w-auto" scope="row" data-hour="${hourPretty}">${hourPretty}</th>
-                <td class="w-75"><span></span></td>
+                <th class="w-auto" scope="row" data-hour="${hourPretty}" data-index="${hour}">${hourPretty}</th>
+                <td class="w-75" id="${i}"></td>
                 <td class="w-auto">
                     <button class="save">
                         <i class="fas fa-save"></i>
@@ -92,7 +95,21 @@ function writeDay() {
                     </button>
                 </td>
             </tr>
-        `));  
+        `)); 
+        
+        // Check local storage for a matching activity
+        var eventsStored = JSON.parse(localStorage.getItem("events"));
+        if (eventsStored != null) {
+            for (j = 0; j < eventsStored.length;  j++) {
+                eventsValue = events[j];
+                iString = String(i);
+                if (eventsValue.timeIndex === iString) {
+                    var selector = "tbody td#" + i;
+                    var $input = $('<input type="text" id="event" class="w-100" data-checked="true">').val(events[j].event);
+                    $(selector).append($($input));
+                }
+            }
+        }
     }
 }
 
