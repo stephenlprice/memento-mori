@@ -22,35 +22,39 @@ $(document).ready(function() {
         // Flag to not allow more than one event per hour
         var click = false;
         // Text input set to cover the entire width
-        var input = $('<input type="text" id="event" class="w-100">');
+        var $input = $('<input type="text" id="event" class="w-100">');
         if (!click) {
-            $(this).append($(input));
+            $(this).append($($input));
             // Focuses on the input element to enter an activity
             $("input").focus();
         }
+        if ($input)
         // Turns this button off once it has been clicked once
         $(this).off(event);
     });
 
     $("tbody tr").on("click", function(event) {
         event.preventDefault();
-        var target = $(event.target);
+        var $target = $(event.target);
         // Allows clicks on save buttons or their icon
-        if (target.is("button.save") || target.is("i.fas.fa-save")) {
-            // create activity object from input and data-hour attribute
+        if ($target.is("button.save") || $target.is("i.fas.fa-save")) {
+            // Will not allow saves on empty input texts
             if($(this).find("td.w-75 input.w-100").val() != "") {
-                var activity = {
+                // create activity object from input and data-hour attribute
+                var $activity = {
                     time: $(this).find("th.w-auto").attr("data-hour"),
                     date: dayjs().format('dddd, MMMM D, YYYY'),
                     event: $(this).find("td.w-75 input.w-100").val()
                 };
-                console.log(activity);
+                console.log($activity);
                 // Does not save activity objects lacking events into local storage
-                if (activity.length < 3 || !activity.hasOwnProperty("event") || activity.event === undefined) {
+                if ($activity.length < 3 || !$activity.hasOwnProperty("event") || $activity.event === undefined) {
                     console.log("cannot save an empty event");
                 }
                 else {
-                    events.push(activity);
+                    // Push activity object into events array
+                    events.push($activity);
+                    // Save events array on local storage
                     localStorage.setItem("events", JSON.stringify(events));
                 }
             }
